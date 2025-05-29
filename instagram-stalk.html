@@ -75,6 +75,7 @@
 
         async function searchInstagram() {
             const username = document.getElementById('usernameInput').value.trim();
+            const encodedUsername = encodeURIComponent(username);
             const profileCard = document.getElementById('profileCard');
             const errorMessage = document.getElementById('errorMessage');
             const errorText = document.getElementById('errorText');
@@ -98,7 +99,7 @@
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        username: username,
+                        username: encodedUsername,
                         apikey: 'Aldii'
                     }),
                     signal: controller.signal
