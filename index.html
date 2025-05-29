@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Instagram Stalker - Website Keren</title>
+    <title>Website Keren - Beranda</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -16,48 +16,36 @@
             <!-- Navbar akan di-load via JavaScript -->
             <div class="navbar" id="navbar"></div>
 
-            <!-- Instagram Stalker Section -->
-            <div class="stalker-container">
-                <div class="stalker-header">
-                    <h1><i class="fab fa-instagram"></i> Instagram Stalker</h1>
-                    <p>Cari dan lihat profil Instagram secara anonim</p>
+            <!-- Hero Section -->
+            <section class="hero">
+                <h1>Selamat Datang di Website Kami</h1>
+                <p>Temukan berbagai fitur menarik dan solusi kreatif untuk kebutuhan digital Anda.</p>
+                <a href="#" class="btn">Pelajari Lebih Lanjut</a>
+            </section>
+
+            <!-- Features Section -->
+            <div class="features">
+                <div class="feature-card">
+                    <i class="fas fa-rocket"></i>
+                    <h3>Performa Tinggi</h3>
+                    <p>Website kami dioptimalkan untuk kecepatan dan performa terbaik di semua perangkat.</p>
                 </div>
-
-                <div class="search-box">
-                    <input type="text" id="usernameInput" placeholder="Masukkan username Instagram...">
-                    <button id="searchButton"><i class="fas fa-search"></i> Cari</button>
+                <div class="feature-card">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h3>Responsif</h3>
+                    <p>Tampilan yang sempurna di semua ukuran layar, dari desktop hingga smartphone.</p>
                 </div>
-
-                <div class="error-message" id="errorMessage">
-                    <i class="fas fa-exclamation-circle"></i> Username tidak ditemukan. Pastikan username benar!
-                </div>
-
-                <div class="profile-card" id="profileCard">
-                    <img src="https://via.placeholder.com/150" alt="Profile" class="profile-img" id="profileImg">
-                    <h2 class="profile-name" id="profileName">Nama Pengguna</h2>
-                    <p class="profile-username" id="profileUsername">@username</p>
-                    <p class="profile-bio" id="profileBio">Bio pengguna akan muncul di sini. Ini adalah contoh bio yang mungkin panjang atau pendek.</p>
-                    
-                    <div class="profile-stats">
-                        <div class="stat-item">
-                            <div class="stat-number" id="statPosts">120</div>
-                            <div class="stat-label">Postingan</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number" id="statFollowers">5.2K</div>
-                            <div class="stat-label">Pengikut</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number" id="statFollowing">342</div>
-                            <div class="stat-label">Diikuti</div>
-                        </div>
-                    </div>
-
-                    <div class="profile-posts" id="profilePosts">
-                        <!-- Postingan akan dimuat di sini -->
-                    </div>
+                <div class="feature-card">
+                    <i class="fas fa-palette"></i>
+                    <h3>Desain Modern</h3>
+                    <p>Antarmuka pengguna yang indah dan intuitif untuk pengalaman terbaik.</p>
                 </div>
             </div>
+
+            <!-- Footer -->
+            <footer>
+                <p>&copy; 2023 Website Keren. Semua hak dilindungi.</p>
+            </footer>
         </div>
     </div>
 
@@ -89,66 +77,7 @@
         if(localStorage.getItem('darkMode') === 'enabled') {
             document.body.classList.add('dark-mode');
         }
-
-        // Fungsi untuk Instagram Stalker
-        document.getElementById('searchButton').addEventListener('click', function() {
-            const username = document.getElementById('usernameInput').value.trim();
-            
-            if(username === '') {
-                document.getElementById('errorMessage').classList.add('active');
-                document.getElementById('profileCard').classList.remove('active');
-                return;
-            }
-            
-            // Simulasi pencarian (pada implementasi nyata, ini akan request ke API)
-            simulateSearch(username);
-        });
-
-        function simulateSearch(username) {
-            // Ini hanya simulasi, pada implementasi nyata Anda perlu menggunakan API
-            const errorMessage = document.getElementById('errorMessage');
-            const profileCard = document.getElementById('profileCard');
-            
-            // Contoh username yang "valid" untuk simulasi
-            const validUsernames = ['john_doe', 'jane_smith', 'instagram', 'traveler'];
-            
-            if(validUsernames.includes(username.toLowerCase())) {
-                errorMessage.classList.remove('active');
-                profileCard.classList.add('active');
-                
-                // Update data profil
-                document.getElementById('profileUsername').textContent = '@' + username;
-                
-                // Generate random data untuk simulasi
-                const randomPosts = Math.floor(Math.random() * 500) + 50;
-                const randomFollowers = (Math.random() * 10000).toFixed(1) + 'K';
-                const randomFollowing = Math.floor(Math.random() * 1000) + 50;
-                
-                document.getElementById('statPosts').textContent = randomPosts;
-                document.getElementById('statFollowers').textContent = randomFollowers;
-                document.getElementById('statFollowing').textContent = randomFollowing;
-                
-                // Generate random posts
-                const postsContainer = document.getElementById('profilePosts');
-                postsContainer.innerHTML = '';
-                
-                const postCount = Math.min(randomPosts, 9); // Max 9 posts untuk preview
-                for(let i = 0; i < postCount; i++) {
-                    const randomImg = `https://source.unsplash.com/random/300x300/?sig=${i}`;
-                    const post = document.createElement('img');
-                    post.src = randomImg;
-                    post.className = 'post-thumbnail';
-                    post.alt = `Post ${i+1}`;
-                    postsContainer.appendChild(post);
-                }
-                
-                // Scroll ke profil
-                profileCard.scrollIntoView({ behavior: 'smooth' });
-            } else {
-                errorMessage.classList.add('active');
-                profileCard.classList.remove('active');
-            }
-        }
     </script>
 </body>
 </html>
+   
