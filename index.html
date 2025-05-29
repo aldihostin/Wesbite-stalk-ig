@@ -77,7 +77,7 @@
       const username = document.getElementById('username').value.trim();
       const apikey = 'Aldii'; // fixed API key
 
-      // Clear previous states
+      // Reset UI states
       result.classList.add('hidden');
       errorMsg.classList.add('hidden');
       errorMsg.textContent = '';
@@ -88,7 +88,7 @@
         return;
       }
 
-      // Show loading spinner, disable button
+      // Show loading spinner and disable button
       btnText.textContent = 'Loading...';
       loadingSpinner.classList.remove('hidden');
       submitBtn.disabled = true;
@@ -101,11 +101,21 @@
 
         if (response.data.success) {
           const data = response.data.data;
-          profilePic.src = data.linkpp;
-          nameElem.textContent = data.nama;
-          bioElem.textContent = data.bio;
-          totalPostElem.textContent = data.totalpost;
-          totalFollowersElem.textContent = data.totalpengikut;
+
+          // Debug print di console (optional)
+          console.log('Data API:', data);
+
+          // Cek linkpp sebelum assign, fallback jika invalid
+          if (data.linkpp && typeof data.linkpp === 'string' && data.linkpp.startsWith('http')) {
+            profilePic.src = data.linkpp;
+          } else {
+            profilePic.src = 'https://via.placeholder.com/80?text=No+Image';
+          }
+
+          nameElem.textContent = data.nama || '-';
+          bioElem.textContent = data.bio || '-';
+          totalPostElem.textContent = data.totalpost || '-';
+          totalFollowersElem.textContent = data.totalpengikut || '-';
 
           result.classList.remove('hidden');
           form.reset();
@@ -116,7 +126,6 @@
         errorMsg.textContent = err.response?.data?.message || err.message || 'Terjadi kesalahan';
         errorMsg.classList.remove('hidden');
       } finally {
-        // Hide loading spinner, enable button
         btnText.textContent = 'Cari Profil';
         loadingSpinner.classList.add('hidden');
         submitBtn.disabled = false;
