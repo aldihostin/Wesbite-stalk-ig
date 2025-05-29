@@ -5,40 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Instagram Stalker - Website Keren</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        /* Tambahkan style untuk notifikasi error */
-        .error-notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background-color: #ff4444;
-            color: white;
-            padding: 15px 20px;
-            border-radius: 5px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-            display: none;
-            animation: slideIn 0.5s forwards;
-        }
-        
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-        
-        .close-error {
-            margin-left: 15px;
-            cursor: pointer;
-        }
-    </style>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="error-notification" id="errorNotification">
-        <span id="errorMessage"></span>
-        <span class="close-error" onclick="closeError()">&times;</span>
-    </div>
-
     <div class="container">
         <div class="sidebar" id="sidebar"></div>
 
@@ -55,6 +24,9 @@
                     <input type="text" id="usernameInput" placeholder="Masukkan username Instagram...">
                     <button id="searchButton"><i class="fas fa-search"></i> Cari</button>
                 </div>
+
+                <!-- Tambahkan pesan error sederhana -->
+                <div id="errorMessage" style="color: red; margin: 10px 0; display: none;"></div>
 
                 <div class="profile-card" id="profileCard">
                     <img src="https://via.placeholder.com/150" alt="Profile" class="profile-img" id="profileImg">
@@ -78,25 +50,6 @@
     </div>
 
     <script>
-        // Fungsi untuk menampilkan error
-        function showError(message) {
-            const errorNotification = document.getElementById('errorNotification');
-            const errorMessage = document.getElementById('errorMessage');
-            
-            errorMessage.textContent = message;
-            errorNotification.style.display = 'block';
-            
-            // Auto hide setelah 5 detik
-            setTimeout(() => {
-                errorNotification.style.display = 'none';
-            }, 5000);
-        }
-        
-        // Fungsi untuk menutup error
-        function closeError() {
-            document.getElementById('errorNotification').style.display = 'none';
-        }
-
         // Fungsi untuk load navbar dan sidebar
         fetch('navbar.html')
             .then(response => response.text())
@@ -105,10 +58,6 @@
                 document.querySelector('.hamburger').addEventListener('click', function() {
                     document.querySelector('.sidebar').classList.toggle('active');
                 });
-            })
-            .catch(error => {
-                console.error('Error loading navbar:', error);
-                showError('Gagal memuat navbar');
             });
 
         fetch('sidebar.html')
@@ -118,18 +67,24 @@
                 document.querySelector('.close-btn').addEventListener('click', function() {
                     document.querySelector('.sidebar').classList.remove('active');
                 });
-            })
-            .catch(error => {
-                console.error('Error loading sidebar:', error);
-                showError('Gagal memuat sidebar');
             });
 
         // Fungsi utama untuk Instagram Stalker
         document.getElementById('searchButton').addEventListener('click', searchInstagram);
 
+        function showError(message) {
+            const errorElement = document.getElementById('errorMessage');
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+            
+            // Sembunyikan setelah 3 detik
+            setTimeout(() => {
+                errorElement.style.display = 'none';
+            }, 3000);
+        }
+
         async function searchInstagram() {
             const username = document.getElementById('usernameInput').value.trim();
-             const encodedUsername = encodeURIComponent(username);
             const profileCard = document.getElementById('profileCard');
             const searchBtn = document.getElementById('searchButton');
             
@@ -144,26 +99,25 @@
                 profileCard.classList.remove('active');
                 searchBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Mencari...';
                 searchBtn.disabled = true;
+                document.getElementById('errorMessage').style.display = 'none';
 
                 // POST request ke API
-                const response = await fetch('https//aquilaresbot.my.id/stalk/ig', {
+                const response = await fetch('https://aquilaresbot.my.id/stalk/ig', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        username: encodedUsername,
+                        username: username,
                         apikey: 'Aldii'
                     })
                 });
 
-            
-
                 const data = await response.json();
 
-                // Validasi jika data tidak ditemukan
+                // Jika data tidak valid
                 if (!data || !data.data) {
-                    throw new Error('Profil tidak ditemukan atau username salah');
+                    throw new Error('Profil tidak ditemukan');
                 }
 
                 // Update UI dengan data dari API
@@ -179,7 +133,7 @@
                 console.error('Error:', error);
                 showError(error.message || 'Terjadi kesalahan saat mencari profil');
                 
-                // Reset profile card jika error
+                // Reset tampilan
                 document.getElementById('profileName').textContent = 'Nama Pengguna';
                 document.getElementById('profileUsername').textContent = '@username';
                 document.getElementById('profileBio').textContent = 'Bio pengguna akan muncul di sini.';
