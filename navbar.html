@@ -1,4 +1,96 @@
-<header class="bg-white shadow-md px-4 py-3 flex justify-between items-center">
-  <h1 class="text-xl font-bold text-pink-600">Aldi MultiTools</h1>
-  <button class="md:hidden text-pink-600 focus:outline-none" onclick="toggleSidebar()">☰</button>
-</header>
+<div class="logo">
+    <h2>Website<span>Keren</span></h2>
+</div>
+<div class="nav-links">
+    <a href="index.html" class="active"><i class="fas fa-home"></i> Beranda</a>
+    <a href="#"><i class="fas fa-info-circle"></i> Tentang</a>
+    <a href="#"><i class="fas fa-concierge-bell"></i> Layanan</a>
+    <a href="stalk-instagram.html"><i class="fas fa-user-plus"></i> Stalk IG</a>
+    <a href="#"><i class="fas fa-envelope"></i> Kontak</a>
+</div>
+<div class="nav-right">
+    <a href="#" class="btn-login"><i class="fas fa-user"></i> Masuk</a>
+    <div class="hamburger" id="hamburger">
+        <i class="fas fa-bars"></i>
+    </div>
+</div>
+
+<style>
+    .logo h2 {
+        color: var(--primary-color);
+        font-weight: 700;
+    }
+    
+    .logo h2 span {
+        color: var(--accent-color);
+    }
+    
+    .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+    
+    .nav-links a {
+        color: #555;
+        text-decoration: none;
+        font-weight: 500;
+        padding: 5px 10px;
+        border-radius: 5px;
+        transition: all 0.3s;
+    }
+    
+    .nav-links a:hover {
+        color: var(--primary-color);
+        background-color: rgba(67, 97, 238, 0.1);
+    }
+    
+    .nav-links a.active {
+        color: var(--primary-color);
+        font-weight: 600;
+    }
+    
+    .nav-links a i {
+        margin-right: 5px;
+    }
+    
+    .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+    
+    .btn-login {
+        background-color: var(--primary-color);
+        color: white !important;
+        padding: 8px 20px !important;
+    }
+    
+    .btn-login:hover {
+        background-color: var(--secondary-color) !important;
+    }
+    
+    .hamburger {
+        display: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: var(--primary-color);
+    }
+    
+    @media (max-width: 992px) {
+        .nav-links {
+            display: none;
+        }
+        
+        .hamburger {
+            display: block;
+        }
+    }
+</style>
+
+<script>
+    document.getElementById('hamburger').addEventListener('click', function() {
+        const navLinks = document.querySelector('.nav-links');
+        navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+    });
+</script>
