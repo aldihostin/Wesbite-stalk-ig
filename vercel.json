@@ -1,16 +1,1 @@
-{
-  "routes": [
-    {
-      "src": "^/stalk-instagram$",
-      "dest": "/stalk-instagram.html"
-    },
-    {
-      "src": "^/tiktok-stalk$",
-      "dest": "/tiktok-stalk.html"
-    },
-    {
-      "src": "^/dashboard$",
-      "dest": "/dashboard.html"
-    },
-  ]
-}
+
