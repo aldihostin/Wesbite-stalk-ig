@@ -13,24 +13,11 @@
 </head>
 <body class="bg-gray-100 font-sans">
 
-  <!-- Navbar -->
-  <header class="bg-white shadow-md px-4 py-3 flex justify-between items-center">
-    <h1 class="text-xl font-bold text-pink-600">Aldi MultiTools</h1>
-    <button class="md:hidden text-pink-600 focus:outline-none" onclick="toggleSidebar()">☰</button>
-  </header>
+ <!-- Placeholder Komponen -->
+  <div id="navbar-placeholder"></div>
 
-  <!-- Layout Wrapper -->
   <div class="flex min-h-screen">
-
-    <!-- Sidebar -->
-    <aside id="sidebar" class="bg-white w-64 p-4 space-y-3 shadow-md hidden md:block">
-      <nav class="space-y-2">
-        <a href="instagram-stalk.html" class="block py-2 px-4 rounded hover:bg-pink-100 text-gray-700">📸 Stalk Instagram</a>
-        <a href="tiktok-stalk.html" class="block py-2 px-4 rounded hover:bg-pink-100 text-gray-700">🎵 Stalk TikTok</a>
-        <a href="tiktok-downloader.html" class="block py-2 px-4 rounded hover:bg-pink-100 text-gray-700">⬇️ TikTok Downloader</a>
-        <a href="tools.html" class="block py-2 px-4 rounded hover:bg-pink-100 text-gray-700">🧰 Tools Lainnya</a>
-      </nav>
-    </aside>
+    <div id="sidebar-placeholder"></div>
 
     <!-- Main Content -->
     <main class="flex-1 p-6">
@@ -41,6 +28,16 @@
   </div>
 
   <script>
+        // Load navbar & sidebar
+    async function loadComponent(id, file) {
+      const res = await fetch(file);
+      const html = await res.text();
+      document.getElementById(id).innerHTML = html;
+    }
+
+    loadComponent('navbar-placeholder', 'navbar.html');
+    loadComponent('sidebar-placeholder', 'sidebar.html');
+
     function toggleSidebar() {
       const sidebar = document.getElementById('sidebar');
       sidebar.classList.toggle('hidden');
