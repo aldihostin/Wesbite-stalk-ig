@@ -6,6 +6,35 @@
     <title>Instagram Stalker - Website Keren</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+<style>
+       /* Ganti style notifikasi error menjadi di tengah */
+    .error-notification {
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #ff4444;
+        color: white;
+        padding: 15px 20px;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        display: none;
+        animation: slideIn 0.5s forwards;
+        text-align: center;
+        max-width: 80%;
+    }
+    
+    @keyframes slideIn {
+        from { transform: translate(-50%, -20px); opacity: 0; }
+        to { transform: translate(-50%, 0); opacity: 1; }
+    }
+    
+    .close-error {
+        margin-left: 15px;
+        cursor: pointer;
+    }
+</style>
 </head>
 <body>
     <div class="container">
