@@ -30,68 +30,54 @@
             margin-left: 15px;
             cursor: pointer;
         }
-        
         /* Style untuk info card */
-        .info-card {
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            padding: 15px;
-            margin: 10px 0;
-            border: 1px solid #e0e0e0;
-        }
+.info-card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 20px 0;
+    border: 1px solid #e0e0e0;
+}
 
-        .info-card h3 {
-            color: #333;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 18px;
-        }
+.info-card h3 {
+    color: #333;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
 
-        .info-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 10px;
-        }
+.info-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+}
 
-        .info-item {
-            display: flex;
-            gap: 10px;
-            padding: 8px;
-            border-radius: 8px;
-            background-color: #f9f9f9;
-        }
+.info-item {
+    display: flex;
+    gap: 15px;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
 
-        .info-item i {
-            font-size: 20px;
-            color: #405DE6;
-            margin-top: 3px;
-        }
+.info-item i {
+    font-size: 24px;
+    color: #405DE6;
+    margin-top: 3px;
+}
 
-        .info-item h4 {
-            margin: 0 0 5px 0;
-            color: #333;
-            font-size: 15px;
-        }
+.info-item h4 {
+    margin: 0 0 5px 0;
+    color: #333;
+}
 
-        .info-item p {
-            margin: 0;
-            color: #666;
-            font-size: 13px;
-            line-height: 1.4;
-        }
-        
-        .stalker-container {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        
-        .search-box {
-            margin-bottom: 0;
-        }
+.info-item p {
+    margin: 0;
+    color: #666;
+    font-size: 14px;
+}
     </style>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -118,40 +104,6 @@
                     <button id="searchButton"><i class="fas fa-search"></i> Cari</button>
                 </div>
 
-                <div class="info-card">
-                    <h3><i class="fas fa-info-circle"></i> Informasi Stalker Instagram</h3>
-                    <div class="info-content">
-                        <div class="info-item">
-                            <i class="fas fa-shield-alt"></i>
-                            <div>
-                                <h4>Privasi Terjaga</h4>
-                                <p>Kami tidak menyimpan data pencarian Anda. Semua aktivitas bersifat anonim dan tidak tercatat.</p>
-                            </div>
-                        </div>
-                        <div class="info-item">
-                            <i class="fas fa-user-secret"></i>
-                            <div>
-                                <h4>Tanpa Login</h4>
-                                <p>Tidak perlu login Instagram. Cukup masukkan username untuk melihat profil publik.</p>
-                            </div>
-                        </div>
-                        <div class="info-item">
-                            <i class="fas fa-lock"></i>
-                            <div>
-                                <h4>Profil Privat</h4>
-                                <p>Hanya menampilkan informasi dari profil publik. Profil privat tidak dapat diakses.</p>
-                            </div>
-                        </div>
-                        <div class="info-item">
-                            <i class="fas fa-exclamation-triangle"></i>
-                            <div>
-                                <h4>Penggunaan Bijak</h4>
-                                <p>Gunakan tool ini dengan bertanggung jawab. Kami tidak mendukung aktivitas stalker yang merugikan.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
                 <div class="profile-card" id="profileCard">
                     <img src="https://via.placeholder.com/150" alt="Profile" class="profile-img" id="profileImg">
                     <h2 class="profile-name" id="profileName">Nama Pengguna</h2>
@@ -170,9 +122,42 @@
                     </div>
                 </div>
             </div>
+        
+
+    <!-- Tambahkan kode ini di bawah div.search-box dan sebelum div.profile-card -->
+<div class="info-card">
+    <h3><i class="fas fa-info-circle"></i> Informasi Stalker Instagram</h3>
+    <div class="info-content">
+        <div class="info-item">
+            <i class="fas fa-shield-alt"></i>
+            <div>
+                <h4>Privasi Terjaga</h4>
+                <p>Kami tidak menyimpan data pencarian Anda. Semua aktivitas bersifat anonim dan tidak tercatat.</p>
+            </div>
+        </div>
+        <div class="info-item">
+            <i class="fas fa-user-secret"></i>
+            <div>
+                <h4>Tanpa Login</h4>
+                <p>Tidak perlu login Instagram. Cukup masukkan username untuk melihat profil publik.</p>
+            </div>
+        </div>
+        <div class="info-item">
+            <i class="fas fa-lock"></i>
+            <div>
+                <h4>Profil Privat</h4>
+                <p>Hanya menampilkan informasi dari profil publik. Profil privat tidak dapat diakses.</p>
+            </div>
+        </div>
+        <div class="info-item">
+            <i class="fas fa-exclamation-triangle"></i>
+            <div>
+                <h4>Penggunaan Bijak</h4>
+                <p>Gunakan tool ini dengan bertanggung jawab. Kami tidak mendukung aktivitas stalker yang merugikan.</p>
+            </div>
         </div>
     </div>
-
+</div>
     <script>
         // Fungsi untuk menampilkan error
         function showError(message) {
