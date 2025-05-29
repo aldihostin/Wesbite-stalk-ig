@@ -12,10 +12,5 @@
       "src": "^/dashboard$",
       "dest": "/dashboard.html"
     },
-    {
-      "src": "^/(.*)$",
-      "dest": "/$1.html",
-      "status": 308
-    }
   ]
 }
