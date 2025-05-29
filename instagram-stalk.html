@@ -25,10 +25,6 @@
                     <button id="searchButton"><i class="fas fa-search"></i> Cari</button>
                 </div>
 
-                <div class="error-message" id="errorMessage">
-                    <i class="fas fa-exclamation-circle"></i> Username tidak ditemukan. Pastikan username benar!
-                </div>
-
                 <div class="profile-card" id="profileCard">
                     <img src="https://via.placeholder.com/150" alt="Profile" class="profile-img" id="profileImg">
                     <h2 class="profile-name" id="profileName">Nama Pengguna</h2>
@@ -70,29 +66,16 @@
                 });
             });
 
-        // Dark mode dari localStorage
-        if(localStorage.getItem('darkMode') === 'enabled') {
-            document.body.classList.add('dark-mode');
-        }
-
         // Fungsi utama untuk Instagram Stalker
         document.getElementById('searchButton').addEventListener('click', searchInstagram);
 
         async function searchInstagram() {
             const username = document.getElementById('usernameInput').value.trim();
-            const errorMessage = document.getElementById('errorMessage');
             const profileCard = document.getElementById('profileCard');
             const searchBtn = document.getElementById('searchButton');
             
-            if(!username) {
-                errorMessage.classList.add('active');
-                profileCard.classList.remove('active');
-                return;
-            }
-
             try {
                 // Loading state
-                errorMessage.classList.remove('active');
                 profileCard.classList.remove('active');
                 searchBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Mencari...';
                 searchBtn.disabled = true;
@@ -111,22 +94,16 @@
 
                 const data = await response.json();
 
-                if(data.success) {
-                    // Update UI dengan data dari API
-                    document.getElementById('profileName').textContent = data.data.nama;
-                    document.getElementById('profileUsername').textContent = `@${username}`;
-                    document.getElementById('profileBio').textContent = data.data.bio || '-';
-                    document.getElementById('profileImg').src = data.data.linkpp || 'https://via.placeholder.com/150';
-                    document.getElementById('statPosts').textContent = data.data.totalpost || '0';
-                    document.getElementById('statFollowers').textContent = data.data.totalpengikut || '0';
-                    
-                    profileCard.classList.add('active');
-                } else {
-                    throw new Error(data.message || 'Profil tidak ditemukan');
-                }
+                // Update UI dengan data dari API
+                document.getElementById('profileName').textContent = data.data.nama;
+                document.getElementById('profileUsername').textContent = `@${username}`;
+                document.getElementById('profileBio').textContent = data.data.bio || '-';
+                document.getElementById('profileImg').src = data.data.linkpp || 'https://via.placeholder.com/150';
+                document.getElementById('statPosts').textContent = data.data.totalpost || '0';
+                document.getElementById('statFollowers').textContent = data.data.totalpengikut || '0';
+                
+                profileCard.classList.add('active');
             } catch (error) {
-                errorMessage.classList.add('active');
-                profileCard.classList.remove('active');
                 console.error('Error:', error);
             } finally {
                 searchBtn.innerHTML = '<i class="fas fa-search"></i> Cari';
