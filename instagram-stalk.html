@@ -129,6 +129,7 @@
 
         async function searchInstagram() {
             const username = document.getElementById('usernameInput').value.trim();
+             const encodedUsername = encodeURIComponent(username);
             const profileCard = document.getElementById('profileCard');
             const searchBtn = document.getElementById('searchButton');
             
@@ -151,15 +152,12 @@
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        username: username,
+                        username: encodedUsername,
                         apikey: 'Aldii'
                     })
                 });
 
-                // Cek jika response tidak OK
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
+            
 
                 const data = await response.json();
 
