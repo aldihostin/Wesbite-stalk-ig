@@ -2,72 +2,37 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Instagram Stalker</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Stalk Instagram</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-50 font-sans min-h-screen flex items-center justify-center p-4">
+<body class="bg-gray-100 font-sans">
 
-    <!-- Placeholder Komponen -->
+  <!-- Placeholder Komponen -->
   <div id="navbar-placeholder"></div>
 
   <div class="flex min-h-screen">
     <div id="sidebar-placeholder"></div>
 
+    <!-- Main Content -->
+    <main class="flex-1 p-6">
+      <h2 class="text-2xl font-bold mb-4 text-gray-800">Stalk Instagram</h2>
+      <p class="mb-2 text-gray-600">Silakan masukkan username Instagram:</p>
 
-  <div class="bg-white max-w-md w-full rounded-xl shadow-lg p-6">
-    <h1 class="text-2xl font-bold mb-6 text-center text-blue-600">Instagram Stalker</h1>
+      <form id="form" class="space-y-4">
+        <input type="text" id="username" placeholder="cth: aldiansyahptra0"
+               class="p-2 border border-gray-300 rounded w-full max-w-sm" required>
+        <button type="submit" class="bg-pink-600 hover:bg-pink-700 text-white py-2 px-4 rounded">
+          Cari Sekarang
+        </button>
+      </form>
 
-    <form id="stalkForm" class="mb-6 space-y-4">
-      <label for="username" class="block font-semibold text-gray-700">Masukkan Username Instagram</label>
-      <input
-        type="text"
-        id="username"
-        placeholder="contoh: elonmusk"
-        required
-        class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-        autocomplete="off"
-      />
-
-      <button
-        type="submit"
-        class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition flex justify-center items-center"
-        id="submitBtn"
-      >
-        <span id="btnText">Cari Profil</span>
-        <svg id="loadingSpinner" class="ml-2 h-5 w-5 animate-spin text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
-        </svg>
-      </button>
-    </form>
-
-    <div id="result" class="hidden bg-gray-100 rounded-md p-4 space-y-4">
-      <div class="flex items-center space-x-4">
-        <img id="profilePic" src="" alt="Profile Picture" class="w-20 h-20 rounded-full object-cover border" />
-        <div>
-          <h2 id="name" class="text-xl font-semibold text-gray-800"></h2>
-          <p id="bio" class="text-gray-600"></p>
-        </div>
-      </div>
-      <div class="flex justify-around text-center text-gray-700">
-        <div>
-          <p class="font-bold text-lg" id="totalPost"></p>
-          <p>Postingan</p>
-        </div>
-        <div>
-          <p class="font-bold text-lg" id="totalFollowers"></p>
-          <p>Pengikut</p>
-        </div>
-      </div>
-    </div>
-
-    <p id="errorMsg" class="text-red-600 text-center mt-4 hidden"></p>
+      <div id="result" class="mt-6"></div>
+    </main>
   </div>
 
   <script>
-       // Load navbar & sidebar
+    // Load navbar & sidebar
     async function loadComponent(id, file) {
       const res = await fetch(file);
       const html = await res.text();
@@ -77,76 +42,43 @@
     loadComponent('navbar-placeholder', 'navbar.html');
     loadComponent('sidebar-placeholder', 'sidebar.html');
 
-    
-    const form = document.getElementById('stalkForm');
-    const result = document.getElementById('result');
-    const profilePic = document.getElementById('profilePic');
-    const nameElem = document.getElementById('name');
-    const bioElem = document.getElementById('bio');
-    const totalPostElem = document.getElementById('totalPost');
-    const totalFollowersElem = document.getElementById('totalFollowers');
-    const errorMsg = document.getElementById('errorMsg');
-    const submitBtn = document.getElementById('submitBtn');
-    const btnText = document.getElementById('btnText');
-    const loadingSpinner = document.getElementById('loadingSpinner');
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      sidebar.classList.toggle('hidden');
+    }
 
-    form.addEventListener('submit', async (e) => {
+    // Fungsi untuk ambil data dari API
+    document.getElementById('form').addEventListener('submit', async (e) => {
       e.preventDefault();
-      const username = document.getElementById('username').value.trim();
-      const apikey = 'Aldii'; // fixed API key
-
-      // Reset UI states
-      result.classList.add('hidden');
-      errorMsg.classList.add('hidden');
-      errorMsg.textContent = '';
-
-      if (!username) {
-        errorMsg.textContent = 'Username tidak boleh kosong.';
-        errorMsg.classList.remove('hidden');
-        return;
-      }
-
-      // Show loading spinner and disable button
-      btnText.textContent = 'Loading...';
-      loadingSpinner.classList.remove('hidden');
-      submitBtn.disabled = true;
+      const username = document.getElementById('username').value;
+      const resultDiv = document.getElementById('result');
+      resultDiv.innerHTML = '🔄 Mengambil data...';
 
       try {
-        const response = await axios.post('https://aquilaresbot.my.id/stalk/ig', {
-          username,
-          apikey,
+        const res = await fetch('https://aquilaresbot.my.id/stalk/ig', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            username: username,
+            apikey: 'Aldii'
+          })
         });
+        const data = await res.json();
 
-        if (response.data.success) {
-          const data = response.data.data;
+        if (!data.success) throw new Error(data.message);
 
-          // Debug print di console (optional)
-          console.log('Data API:', data);
-
-          // Cek linkpp sebelum assign, fallback jika invalid
-          if (data.linkpp && typeof data.linkpp === 'string' && data.linkpp.startsWith('http')) {
-            profilePic.src = data.linkpp;
-          } else {
-            profilePic.src = 'https://via.placeholder.com/80?text=No+Image';
-          }
-
-          nameElem.textContent = data.nama || '-';
-          bioElem.textContent = data.bio || '-';
-          totalPostElem.textContent = data.totalpost || '-';
-          totalFollowersElem.textContent = data.totalpengikut || '-';
-
-          result.classList.remove('hidden');
-          form.reset();
-        } else {
-          throw new Error(response.data.message || 'Gagal mengambil data');
-        }
+        const ig = data.data;
+        resultDiv.innerHTML = `
+          <div class="p-4 bg-white shadow rounded">
+            <img src="${ig.linkpp || '#'}" alt="PP" class="w-24 h-24 rounded-full object-cover mb-3">
+            <p><strong>Username:</strong> ${ig.nama}</p>
+            <p><strong>Bio:</strong> ${ig.bio}</p>
+            <p><strong>Postingan:</strong> ${ig.totalpost}</p>
+            <p><strong>Followers:</strong> ${ig.totalpengikut}</p>
+          </div>
+        `;
       } catch (err) {
-        errorMsg.textContent = err.response?.data?.message || err.message || 'Terjadi kesalahan';
-        errorMsg.classList.remove('hidden');
-      } finally {
-        btnText.textContent = 'Cari Profil';
-        loadingSpinner.classList.add('hidden');
-        submitBtn.disabled = false;
+        resultDiv.innerHTML = `<p class="text-red-600">❌ ${err.message}</p>`;
       }
     });
   </script>
