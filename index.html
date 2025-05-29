@@ -2,135 +2,49 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Instagram Stalker</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Multi Tools by Aldi</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .active {
+      @apply bg-pink-600 text-white;
+    }
+  </style>
 </head>
-<body class="bg-gray-50 font-sans min-h-screen flex items-center justify-center p-4">
+<body class="bg-gray-100 font-sans">
 
-  <div class="bg-white max-w-md w-full rounded-xl shadow-lg p-6">
-    <h1 class="text-2xl font-bold mb-6 text-center text-blue-600">Instagram Stalker</h1>
+  <!-- Navbar -->
+  <header class="bg-white shadow-md px-4 py-3 flex justify-between items-center">
+    <h1 class="text-xl font-bold text-pink-600">Aldi MultiTools</h1>
+    <button class="md:hidden text-pink-600 focus:outline-none" onclick="toggleSidebar()">☰</button>
+  </header>
 
-    <form id="stalkForm" class="mb-6 space-y-4">
-      <label for="username" class="block font-semibold text-gray-700">Masukkan Username Instagram</label>
-      <input
-        type="text"
-        id="username"
-        placeholder="contoh: elonmusk"
-        required
-        class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-        autocomplete="off"
-      />
+  <!-- Layout Wrapper -->
+  <div class="flex min-h-screen">
 
-      <button
-        type="submit"
-        class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition flex justify-center items-center"
-        id="submitBtn"
-      >
-        <span id="btnText">Cari Profil</span>
-        <svg id="loadingSpinner" class="ml-2 h-5 w-5 animate-spin text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
-        </svg>
-      </button>
-    </form>
+    <!-- Sidebar -->
+    <aside id="sidebar" class="bg-white w-64 p-4 space-y-3 shadow-md hidden md:block">
+      <nav class="space-y-2">
+        <a href="instagram-stalk.html" class="block py-2 px-4 rounded hover:bg-pink-100 text-gray-700">📸 Stalk Instagram</a>
+        <a href="tiktok-stalk.html" class="block py-2 px-4 rounded hover:bg-pink-100 text-gray-700">🎵 Stalk TikTok</a>
+        <a href="tiktok-downloader.html" class="block py-2 px-4 rounded hover:bg-pink-100 text-gray-700">⬇️ TikTok Downloader</a>
+        <a href="tools.html" class="block py-2 px-4 rounded hover:bg-pink-100 text-gray-700">🧰 Tools Lainnya</a>
+      </nav>
+    </aside>
 
-    <div id="result" class="hidden bg-gray-100 rounded-md p-4 space-y-4">
-      <div class="flex items-center space-x-4">
-        <img id="profilePic" src="" alt="Profile Picture" class="w-20 h-20 rounded-full object-cover border" />
-        <div>
-          <h2 id="name" class="text-xl font-semibold text-gray-800"></h2>
-          <p id="bio" class="text-gray-600"></p>
-        </div>
-      </div>
-      <div class="flex justify-around text-center text-gray-700">
-        <div>
-          <p class="font-bold text-lg" id="totalPost"></p>
-          <p>Postingan</p>
-        </div>
-        <div>
-          <p class="font-bold text-lg" id="totalFollowers"></p>
-          <p>Pengikut</p>
-        </div>
-      </div>
-    </div>
-
-    <p id="errorMsg" class="text-red-600 text-center mt-4 hidden"></p>
+    <!-- Main Content -->
+    <main class="flex-1 p-6">
+      <h2 class="text-2xl font-bold mb-4 text-gray-800">Selamat Datang 👋</h2>
+      <p class="text-gray-600 mb-4">Silakan pilih salah satu tools dari menu di samping.</p>
+      <p class="text-gray-600">Contoh: Stalk Instagram, TikTok Downloader, dan lain-lain. Semua dalam satu project!</p>
+    </main>
   </div>
 
   <script>
-    const form = document.getElementById('stalkForm');
-    const result = document.getElementById('result');
-    const profilePic = document.getElementById('profilePic');
-    const nameElem = document.getElementById('name');
-    const bioElem = document.getElementById('bio');
-    const totalPostElem = document.getElementById('totalPost');
-    const totalFollowersElem = document.getElementById('totalFollowers');
-    const errorMsg = document.getElementById('errorMsg');
-    const submitBtn = document.getElementById('submitBtn');
-    const btnText = document.getElementById('btnText');
-    const loadingSpinner = document.getElementById('loadingSpinner');
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const username = document.getElementById('username').value.trim();
-      const apikey = 'Aldii'; // fixed API key
-
-      // Reset UI states
-      result.classList.add('hidden');
-      errorMsg.classList.add('hidden');
-      errorMsg.textContent = '';
-
-      if (!username) {
-        errorMsg.textContent = 'Username tidak boleh kosong.';
-        errorMsg.classList.remove('hidden');
-        return;
-      }
-
-      // Show loading spinner and disable button
-      btnText.textContent = 'Loading...';
-      loadingSpinner.classList.remove('hidden');
-      submitBtn.disabled = true;
-
-      try {
-        const response = await axios.post('https://aquilaresbot.my.id/stalk/ig', {
-          username,
-          apikey,
-        });
-
-        if (response.data.success) {
-          const data = response.data.data;
-
-          // Debug print di console (optional)
-          console.log('Data API:', data);
-
-          // Cek linkpp sebelum assign, fallback jika invalid
-          if (data.linkpp && typeof data.linkpp === 'string' && data.linkpp.startsWith('http')) {
-            profilePic.src = data.linkpp;
-          } else {
-            profilePic.src = 'https://via.placeholder.com/80?text=No+Image';
-          }
-
-          nameElem.textContent = data.nama || '-';
-          bioElem.textContent = data.bio || '-';
-          totalPostElem.textContent = data.totalpost || '-';
-          totalFollowersElem.textContent = data.totalpengikut || '-';
-
-          result.classList.remove('hidden');
-          form.reset();
-        } else {
-          throw new Error(response.data.message || 'Gagal mengambil data');
-        }
-      } catch (err) {
-        errorMsg.textContent = err.response?.data?.message || err.message || 'Terjadi kesalahan';
-        errorMsg.classList.remove('hidden');
-      } finally {
-        btnText.textContent = 'Cari Profil';
-        loadingSpinner.classList.add('hidden');
-        submitBtn.disabled = false;
-      }
-    });
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      sidebar.classList.toggle('hidden');
+    }
   </script>
 
 </body>
